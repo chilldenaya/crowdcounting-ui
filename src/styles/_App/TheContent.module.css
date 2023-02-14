@@ -1,0 +1,5 @@
+.content {
+  overflow: initial;
+  min-height: calc(100vh - 155px);
+  margin: 21px 16px 0;
+}

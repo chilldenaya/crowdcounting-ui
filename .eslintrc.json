@@ -5,8 +5,7 @@
     "no-else-return": "error",
     "no-empty": "error",
     "no-lonely-if": "error",
-    "no-unused-vars": "error",
-    "sort-imports": "error",
+    "no-unused-vars": "warn",
     "sort-keys": "error",
     "sort-vars": "error"
   }

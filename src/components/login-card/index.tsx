@@ -2,10 +2,24 @@ import { Button, Card, Col, Form, Input, Row, Typography } from 'antd'
 import { LockOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import s from './index.module.scss'
+import { useRouter } from 'next/router'
 
 const { Title, Text } = Typography
 
 export default function LoginCard() {
+  const router = useRouter()
+
+  const onFinish = (values: { username: string; password: string }) => {
+    if (
+      values.username === 'admin@admin.com' &&
+      values.password === 'adminadmin'
+    ) {
+      router.push('/dashboard')
+    } else {
+      // TODO: add toast
+    }
+  }
+
   return (
     <main className={s.main}>
       <Card
@@ -25,7 +39,7 @@ export default function LoginCard() {
         headStyle={{ fontWeight: 'unset' }}
         className={s.loginCard}
       >
-        <Form initialValues={{ remember: true }}>
+        <Form initialValues={{ remember: true }} onFinish={onFinish}>
           <Form.Item
             name="username"
             rules={[
@@ -36,7 +50,7 @@ export default function LoginCard() {
             ]}
           >
             <Input
-              type="email"
+              type="text"
               prefix={<UserOutlined />}
               placeholder="Username"
             />
