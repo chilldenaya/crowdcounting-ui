@@ -30,9 +30,9 @@ export default function LoginCard() {
             </Col>
             <Col>
               <Title level={3} style={{ margin: 'unset' }}>
-                Crowd Counting App
+                RAMMAI
               </Title>
-              <Text type="secondary">A slogan can be placed here.</Text>
+              <Text type="secondary">Crowd Counting App</Text>
             </Col>
           </Row>
         }

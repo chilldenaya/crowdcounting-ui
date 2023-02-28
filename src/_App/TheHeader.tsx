@@ -8,7 +8,7 @@ export default function TheHeader() {
 
   return (
     <Header>
-      <h1 style={{ color: 'white' }}>Crowd Counting | Home</h1>
+      <h1 style={{ color: 'white' }}>RAMMAI | Home</h1>
     </Header>
   )
 }
