@@ -1,7 +1,7 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "no-console": "error",
+    "no-console": "warn",
     "no-else-return": "error",
     "no-empty": "error",
     "no-lonely-if": "error",
