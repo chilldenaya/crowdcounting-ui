@@ -47,6 +47,10 @@ export default function LoginCard() {
                 message: 'Please input your Username!',
                 required: true,
               },
+              {
+                max: 50,
+                message: "Value should be less than 50 character",
+              },
             ]}
           >
             <Input
@@ -61,6 +65,10 @@ export default function LoginCard() {
               {
                 message: 'Please input your Password!',
                 required: true,
+              },
+              {
+                max: 50,
+                message: "Value should be less than 50 character",
               },
             ]}
           >
