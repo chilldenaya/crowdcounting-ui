@@ -9,38 +9,49 @@ import {
   Image,
   Col,
   Row,
+  Modal,
 } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useState } from 'react'
+import moment from 'moment'
+import dayjs from 'dayjs'
 
 export default function Home() {
   const timeFormat = 'HH:mm'
   const [imageUrl, setImageUrl] = useState<string>('')
+  const [fileImage, setFileImage] = useState<any>([])
 
-  // const handleUpload = () => {
-  //   const formData = new FormData()
-  //   fileList.forEach(file => {
-  //     formData.append('files[]', file as RcFile)
-  //   })
-  //   setUploading(true)
-  //   // You can use any AJAX library you like
-  //   fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
-  //     body: formData,
-  //     method: 'POST',
-  //   })
-  //     .then(res => res.json())
-  //     .then(() => {
-  //       setFileList([])
-  //       message.success('upload successfully.')
-  //     })
-  //     .catch(() => {
-  //       message.error('upload failed.')
-  //     })
-  //     .finally(() => {
-  //       setUploading(false)
-  //     })
-  // }
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+
+  moment.locale('id')
+  const now = dayjs()
+
+  const handleUpload = async (event: any) => {
+    setFileImage(event.fileList)
+  }
+
+  const handleUploadRemove = async () => {
+    setFileImage([])
+  }
+
+  const handlePreview = async (file: any) => {
+    file.preview = await getBase64(file.originFileObj)
+    setPreviewVisible(true)
+    setPreviewImage(file.preview)
+    // window.open(file.preview)
+  }
+
+  const getBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = error => reject(error)
+    })
+  }
+  const handleCancel = () => setPreviewVisible(false)
 
   return (
     <>
@@ -53,7 +64,8 @@ export default function Home() {
               layout="horizontal"
               onFinish={(values: any) => {
                 const formData = new FormData()
-                formData.append('file', values.file.fileList[0].originFileObj)
+                console.log('images ', fileImage)
+                formData.append('file', fileImage[0].originFileObj)
 
                 fetch('http://localhost:8000/upload', {
                   body: formData,
@@ -71,24 +83,49 @@ export default function Home() {
               }}
             >
               <Form.Item name="file" label="File">
-                <Upload listType="picture-card">
-                  <div>
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
-                  </div>
+                <Upload
+                  onChange={handleUpload}
+                  onPreview={handlePreview}
+                  onRemove={handleUploadRemove}
+                  listType="picture-card"
+                  maxCount={1}
+                >
+                  {fileImage.length == 1 ? null : (
+                    <div>
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>Upload</div>
+                    </div>
+                  )}
                 </Upload>
+                <Modal
+                  visible={previewVisible}
+                  footer={null}
+                  onCancel={handleCancel}
+                >
+                  <img
+                    alt="preview"
+                    style={{ width: '100%' }}
+                    src={previewImage}
+                  />
+                </Modal>
               </Form.Item>
               <Form.Item name="gate" label="Titik">
-                <Select>
+                <Select
+                  labelInValue
+                  defaultValue={{ value: 'gate1', label: 'Gate 1' }}
+                >
                   <Select.Option value="gate1">Gate 1</Select.Option>
                   <Select.Option value="gate2">Gate 2</Select.Option>
                 </Select>
               </Form.Item>
               <Form.Item name="date" label="Tanggal">
-                <DatePicker />
+                <DatePicker defaultValue={now} />
               </Form.Item>
               <Form.Item name="time" label="Waktu">
-                <TimePicker format={timeFormat} />
+                <TimePicker
+                  format={timeFormat}
+                  defaultValue={dayjs(now, 'HH:mm')}
+                />
               </Form.Item>
               <Form.Item>
                 <Button block type="primary" htmlType="submit">
