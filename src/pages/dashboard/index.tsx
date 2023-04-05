@@ -11,6 +11,8 @@ import {
   Row,
   Modal,
   message,
+  Spin,
+  Space,
 } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import React from 'react'
@@ -26,6 +28,8 @@ export default function Home() {
 
   const [previewVisible, setPreviewVisible] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [prevResult, setPrevResult] = useState(false)
 
   moment.locale('id')
   const now = dayjs()
@@ -89,6 +93,8 @@ export default function Home() {
                     response.blob().then(blob => {
                       const url = URL.createObjectURL(blob)
                       setImageUrl(url)
+                      setLoading(false)
+                      setPrevResult(true)
                     })
                   })
                   .catch(error => {
@@ -112,6 +118,7 @@ export default function Home() {
                     </div>
                   )}
                 </Upload>
+                *only support JPG/PNG file with size less than 2M
                 <Modal
                   visible={previewVisible}
                   footer={null}
@@ -143,7 +150,15 @@ export default function Home() {
                 />
               </Form.Item>
               <Form.Item>
-                <Button block type="primary" htmlType="submit">
+                <Button
+                  block
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => {
+                    setLoading(true)
+                    setImageUrl('')
+                  }}
+                >
                   Submit
                 </Button>
               </Form.Item>
@@ -153,7 +168,12 @@ export default function Home() {
         <Col span={12}>
           <Card style={{ width: '100%' }}>
             <h1>Result</h1>
-            <Image width={434} src={imageUrl} />
+            <Row justify="center">
+              <Spin tip="Loading..." spinning={loading}></Spin>
+            </Row>
+            <Row justify="center">
+              <Image width={434} src={imageUrl} preview={prevResult} />
+            </Row>
           </Card>
         </Col>
       </Row>
