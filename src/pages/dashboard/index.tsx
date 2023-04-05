@@ -10,12 +10,14 @@ import {
   Col,
   Row,
   Modal,
+  message,
 } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useState } from 'react'
 import moment from 'moment'
 import dayjs from 'dayjs'
+import { RcFile } from 'antd/es/upload'
 
 export default function Home() {
   const timeFormat = 'HH:mm'
@@ -53,6 +55,18 @@ export default function Home() {
   }
   const handleCancel = () => setPreviewVisible(false)
 
+  const beforeUpload = (file: RcFile) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!')
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!')
+    }
+    return (isJpgOrPng && isLt2M) || Upload.LIST_IGNORE
+  }
+
   return (
     <>
       <Row>
@@ -89,6 +103,7 @@ export default function Home() {
                   onRemove={handleUploadRemove}
                   listType="picture-card"
                   maxCount={1}
+                  beforeUpload={beforeUpload}
                 >
                   {fileImage.length == 1 ? null : (
                     <div>
