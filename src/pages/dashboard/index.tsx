@@ -3,7 +3,6 @@ import {
   Upload,
   Button,
   Card,
-  TimePicker,
   DatePicker,
   Select,
   Image,
@@ -13,7 +12,7 @@ import {
   message,
   Spin,
 } from 'antd'
-import { Space, Table, Tag } from 'antd'
+import { Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { PlusOutlined } from '@ant-design/icons'
 import React from 'react'
@@ -83,7 +82,6 @@ const data: DataType[] = [
 ]
 
 export default function Home() {
-  const timeFormat = 'HH:mm'
   const [imageUrl, setImageUrl] = useState<string>('')
   const [fileImage, setFileImage] = useState<any>([])
 
@@ -143,8 +141,9 @@ export default function Home() {
               layout="horizontal"
               onFinish={(values: any) => {
                 const formData = new FormData()
-                console.log(values)
                 formData.append('file', fileImage[0].originFileObj)
+                formData.append('datetime', values.datetime)
+                formData.append('gate', values.gate.value)
 
                 fetch('http://localhost:8000/upload', {
                   body: formData,
@@ -197,18 +196,12 @@ export default function Home() {
                   labelInValue
                   defaultValue={{ label: 'Gate 1', value: 'gate1' }}
                 >
-                  <Select.Option value="gate1">Gate 1</Select.Option>
-                  <Select.Option value="gate2">Gate 2</Select.Option>
+                  <Select.Option value="Gate 1">Gate 1</Select.Option>
+                  <Select.Option value="Gate 2">Gate 2</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item name="date" label="Tanggal">
-                <DatePicker defaultValue={now} />
-              </Form.Item>
-              <Form.Item name="time" label="Waktu">
-                <TimePicker
-                  format={timeFormat}
-                  defaultValue={dayjs(now, 'HH:mm')}
-                />
+              <Form.Item name="datetime" label="Tanggal">
+                <DatePicker showTime defaultValue={now} />
               </Form.Item>
               <Form.Item>
                 <Button
