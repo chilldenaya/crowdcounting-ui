@@ -49,7 +49,7 @@ export default function LoginCard() {
               },
               {
                 max: 50,
-                message: "Value should be less than 50 character",
+                message: 'Value should be less than 50 character',
               },
             ]}
           >
@@ -68,7 +68,7 @@ export default function LoginCard() {
               },
               {
                 max: 50,
-                message: "Value should be less than 50 character",
+                message: 'Value should be less than 50 character',
               },
             ]}
           >

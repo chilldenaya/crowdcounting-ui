@@ -12,14 +12,75 @@ import {
   Modal,
   message,
   Spin,
-  Space,
 } from 'antd'
+import { Space, Table, Tag } from 'antd'
+import type { ColumnsType } from 'antd/es/table'
 import { PlusOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useState } from 'react'
 import moment from 'moment'
 import dayjs from 'dayjs'
 import { RcFile } from 'antd/es/upload'
+
+interface DataType {
+  titik: string
+  tanggal: string
+  waktu: string
+  jumlah: number
+}
+
+const columns: ColumnsType<DataType> = [
+  {
+    dataIndex: 'titik',
+    key: 'titik',
+    title: 'Titik',
+  },
+  {
+    dataIndex: 'tanggal',
+    key: 'tanggal',
+    title: 'Tanngal',
+  },
+  {
+    dataIndex: 'waktu',
+    key: 'waktu',
+    title: 'Waktu',
+  },
+  {
+    dataIndex: 'jumlah',
+    key: 'jumlah',
+    title: 'Jumlah',
+  },
+  {
+    key: 'action',
+    render: (_, record) => (
+      <Space size="middle">
+        <a>Delete</a>
+      </Space>
+    ),
+    title: 'Action',
+  },
+]
+
+const data: DataType[] = [
+  {
+    jumlah: 32,
+    tanggal: '01-01-2001',
+    titik: 'Gate 1',
+    waktu: '07.15',
+  },
+  {
+    jumlah: 28,
+    tanggal: '01-01-2001',
+    titik: 'Gate 2',
+    waktu: '07.10',
+  },
+  {
+    jumlah: 19,
+    tanggal: '01-01-2001',
+    titik: 'Gate 1',
+    waktu: '07.05',
+  },
+]
 
 export default function Home() {
   const timeFormat = 'HH:mm'
@@ -46,7 +107,6 @@ export default function Home() {
     file.preview = await getBase64(file.originFileObj)
     setPreviewVisible(true)
     setPreviewImage(file.preview)
-    // window.open(file.preview)
   }
 
   const getBase64 = (file: any) => {
@@ -74,7 +134,8 @@ export default function Home() {
   return (
     <>
       <Row>
-        <Col span={12}>
+        <Col span={8}></Col>
+        <Col span={8}>
           <Card style={{ width: '100%' }}>
             <Form
               style={{ maxWidth: 600 }}
@@ -82,7 +143,7 @@ export default function Home() {
               layout="horizontal"
               onFinish={(values: any) => {
                 const formData = new FormData()
-                console.log('images ', fileImage)
+                console.log(values)
                 formData.append('file', fileImage[0].originFileObj)
 
                 fetch('http://localhost:8000/upload', {
@@ -134,7 +195,7 @@ export default function Home() {
               <Form.Item name="gate" label="Titik">
                 <Select
                   labelInValue
-                  defaultValue={{ value: 'gate1', label: 'Gate 1' }}
+                  defaultValue={{ label: 'Gate 1', value: 'gate1' }}
                 >
                   <Select.Option value="gate1">Gate 1</Select.Option>
                   <Select.Option value="gate2">Gate 2</Select.Option>
@@ -165,7 +226,11 @@ export default function Home() {
             </Form>
           </Card>
         </Col>
-        <Col span={12}>
+        <Col span={8}></Col>
+      </Row>
+      <Row>
+        <Col span={8}></Col>
+        <Col span={8}>
           <Card style={{ width: '100%' }}>
             <h1>Result</h1>
             <Row justify="center">
@@ -176,6 +241,14 @@ export default function Home() {
             </Row>
           </Card>
         </Col>
+        <Col span={8}></Col>
+      </Row>
+      <Row>
+        <Col span={8}></Col>
+        <Col span={8}>
+          <Table columns={columns} dataSource={data} />
+        </Col>
+        <Col span={8}></Col>
       </Row>
     </>
   )
