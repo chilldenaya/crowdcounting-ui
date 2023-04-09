@@ -16,7 +16,7 @@ import { Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { PlusOutlined } from '@ant-design/icons'
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import moment from 'moment'
 import dayjs from 'dayjs'
 import { RcFile } from 'antd/es/upload'
@@ -30,23 +30,18 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
   {
-    dataIndex: 'titik',
-    key: 'titik',
+    dataIndex: 'gate',
+    key: 'gate',
     title: 'Titik',
   },
   {
-    dataIndex: 'tanggal',
-    key: 'tanggal',
-    title: 'Tanngal',
-  },
-  {
-    dataIndex: 'waktu',
-    key: 'waktu',
+    dataIndex: 'datetime',
+    key: 'datetime',
     title: 'Waktu',
   },
   {
-    dataIndex: 'jumlah',
-    key: 'jumlah',
+    dataIndex: 'count',
+    key: 'count',
     title: 'Jumlah',
   },
   {
@@ -57,27 +52,6 @@ const columns: ColumnsType<DataType> = [
       </Space>
     ),
     title: 'Action',
-  },
-]
-
-const data: DataType[] = [
-  {
-    jumlah: 32,
-    tanggal: '01-01-2001',
-    titik: 'Gate 1',
-    waktu: '07.15',
-  },
-  {
-    jumlah: 28,
-    tanggal: '01-01-2001',
-    titik: 'Gate 2',
-    waktu: '07.10',
-  },
-  {
-    jumlah: 19,
-    tanggal: '01-01-2001',
-    titik: 'Gate 1',
-    waktu: '07.05',
   },
 ]
 
@@ -129,6 +103,23 @@ export default function Home() {
     return (isJpgOrPng && isLt2M) || Upload.LIST_IGNORE
   }
 
+  const fetchData = async () => {
+    const response = await fetch('http://localhost:8000/data')
+    const data = await response.json()
+    setTableData(data)
+  }
+
+  const [tableData, setTableData] = useState([])
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:8000/data')
+      const data = await response.json()
+      setTableData(data)
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <>
       <Row>
@@ -155,6 +146,7 @@ export default function Home() {
                       setImageUrl(url)
                       setLoading(false)
                       setPrevResult(true)
+                      fetchData()
                     })
                   })
                   .catch(error => {
@@ -239,7 +231,7 @@ export default function Home() {
       <Row>
         <Col span={8}></Col>
         <Col span={8}>
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={tableData} />
         </Col>
         <Col span={8}></Col>
       </Row>
