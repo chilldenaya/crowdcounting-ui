@@ -20,6 +20,7 @@ import { useState } from 'react'
 import moment from 'moment'
 import dayjs from 'dayjs'
 import { RcFile } from 'antd/es/upload'
+import 'dayjs/locale/id'
 
 export default function Home() {
   const timeFormat = 'HH:mm'
@@ -31,7 +32,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [prevResult, setPrevResult] = useState(false)
 
-  moment.locale('id')
+  dayjs.locale('id')
+
   const now = dayjs()
 
   const handleUpload = async (event: any) => {
@@ -131,6 +133,7 @@ export default function Home() {
                   />
                 </Modal>
               </Form.Item>
+<<<<<<< Updated upstream
               <Form.Item name="gate" label="Titik">
                 <Select
                   labelInValue
@@ -148,6 +151,22 @@ export default function Home() {
                   format={timeFormat}
                   defaultValue={dayjs(now, 'HH:mm')}
                 />
+=======
+              <Form.Item
+                name="gate"
+                label="Titik"
+                initialValue={{ label: 'Gate 1', value: 'Gate 1' }}
+              >
+                <Select labelInValue>
+                  <Select.Option value="Gate 1">Gate 1</Select.Option>
+                  <Select.Option value="Gate 2">Gate 2</Select.Option>
+                  <Select.Option value="Gate 3">Gate 3</Select.Option>
+                  <Select.Option value="Gate 4">Gate 4</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item name="datetime" label="Tanggal" initialValue={now}>
+                <DatePicker showTime />
+>>>>>>> Stashed changes
               </Form.Item>
               <Form.Item>
                 <Button
