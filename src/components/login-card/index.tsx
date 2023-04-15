@@ -3,6 +3,8 @@ import { LockOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import s from './index.module.scss'
 import { useRouter } from 'next/router'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const { Title, Text } = Typography
 
@@ -17,6 +19,16 @@ export default function LoginCard() {
       router.push('/dashboard')
     } else {
       // TODO: add toast
+      toast.warn('Maaf username dan/atau Password anda salah!', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      })
     }
   }
 
@@ -78,7 +90,18 @@ export default function LoginCard() {
               placeholder="Password"
             />
           </Form.Item>
-
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <Form.Item style={{ marginBottom: 'unset' }}>
             <Button
               type="primary"
