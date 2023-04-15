@@ -133,25 +133,6 @@ export default function Home() {
                   />
                 </Modal>
               </Form.Item>
-<<<<<<< Updated upstream
-              <Form.Item name="gate" label="Titik">
-                <Select
-                  labelInValue
-                  defaultValue={{ value: 'gate1', label: 'Gate 1' }}
-                >
-                  <Select.Option value="gate1">Gate 1</Select.Option>
-                  <Select.Option value="gate2">Gate 2</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item name="date" label="Tanggal">
-                <DatePicker defaultValue={now} />
-              </Form.Item>
-              <Form.Item name="time" label="Waktu">
-                <TimePicker
-                  format={timeFormat}
-                  defaultValue={dayjs(now, 'HH:mm')}
-                />
-=======
               <Form.Item
                 name="gate"
                 label="Titik"
@@ -166,7 +147,6 @@ export default function Home() {
               </Form.Item>
               <Form.Item name="datetime" label="Tanggal" initialValue={now}>
                 <DatePicker showTime />
->>>>>>> Stashed changes
               </Form.Item>
               <Form.Item>
                 <Button
