@@ -183,17 +183,22 @@ export default function Home() {
                   />
                 </Modal>
               </Form.Item>
-              <Form.Item name="gate" label="Titik">
-                <Select
-                  labelInValue
-                  defaultValue={{ label: 'Gate 1', value: 'gate1' }}
-                >
+              <Form.Item
+                name="gate"
+                label="Titik"
+                initialValue={{ label: 'Gate 1', value: 'Gate 1' }}
+              >
+                <Select labelInValue>
                   <Select.Option value="Gate 1">Gate 1</Select.Option>
                   <Select.Option value="Gate 2">Gate 2</Select.Option>
+                  <Select.Option value="Gate 3">Gate 3</Select.Option>
+                  <Select.Option value="Gate 4">Gate 4</Select.Option>
+                  <Select.Option value="Gate 5">Gate 5</Select.Option>
+                  <Select.Option value="Gate 6">Gate 6</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item name="datetime" label="Tanggal">
-                <DatePicker showTime defaultValue={now} />
+              <Form.Item name="datetime" label="Tanggal" initialValue={now}>
+                <DatePicker showTime />
               </Form.Item>
               <Form.Item>
                 <Button
