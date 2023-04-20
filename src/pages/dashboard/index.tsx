@@ -104,7 +104,7 @@ export default function Home() {
   }
 
   const fetchData = async () => {
-    const response = await fetch('http://localhost:8000/data')
+    const response = await fetch('http://154.26.132.120/data')
     const data = await response.json()
     setTableData(data)
   }
@@ -112,7 +112,7 @@ export default function Home() {
   const [tableData, setTableData] = useState([])
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:8000/data')
+      const response = await fetch('http://154.26.132.120/data')
       const data = await response.json()
       setTableData(data)
     }
