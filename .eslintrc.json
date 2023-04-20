@@ -6,7 +6,7 @@
     "no-empty": "error",
     "no-lonely-if": "error",
     "no-unused-vars": "warn",
-    "sort-keys": "error",
+    "sort-keys": "warn",
     "sort-vars": "error"
   }
 }

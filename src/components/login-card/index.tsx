@@ -18,14 +18,13 @@ export default function LoginCard() {
     ) {
       router.push('/dashboard')
     } else {
-      // TODO: add toast
       toast.warn('Maaf username dan/atau Password anda salah!', {
-        position: 'top-center',
         autoClose: 2000,
-        hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
         draggable: true,
+        hideProgressBar: false,
+        pauseOnHover: true,
+        position: 'top-center',
         progress: undefined,
         theme: 'colored',
       })
@@ -91,14 +90,14 @@ export default function LoginCard() {
             />
           </Form.Item>
           <ToastContainer
-            position="top-center"
             autoClose={5000}
+            closeOnClick
+            draggable
+            position="top-center"
             hideProgressBar={false}
             newestOnTop={false}
-            closeOnClick
             rtl={false}
             pauseOnFocusLoss
-            draggable
             pauseOnHover
             theme="light"
           />
