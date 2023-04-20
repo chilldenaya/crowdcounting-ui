@@ -14,7 +14,7 @@ import {
 } from 'antd'
 import { Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { PlusOutlined } from '@ant-design/icons'
+import { DownloadOutlined, PlusOutlined } from '@ant-design/icons'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import moment from 'moment'
@@ -104,7 +104,7 @@ export default function Home() {
   }
 
   const fetchData = async () => {
-    const response = await fetch('https://154.26.132.120/data')
+    const response = await fetch('http://localhost:8000/data')
     const data = await response.json()
     setTableData(data)
   }
@@ -112,13 +112,31 @@ export default function Home() {
   const [tableData, setTableData] = useState([])
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('https://154.26.132.120/data')
+      const response = await fetch('http://localhost:8000/data')
       const data = await response.json()
       setTableData(data)
     }
 
     fetchData()
   }, [])
+
+  const handleDownload = (dataSource: any) => {
+    const csvColumns = dataSource.length > 0 ? Object.keys(dataSource[0]) : []
+    const csvData = dataSource.map((record: any) => Object.values(record))
+    const csv = [
+      csvColumns.join(','),
+      ...csvData.map((row: any) => row.join(',')),
+    ].join('\n')
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'table.csv')
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
 
   return (
     <>
@@ -236,7 +254,21 @@ export default function Home() {
       <Row>
         <Col span={8}></Col>
         <Col span={8}>
-          <Table columns={columns} dataSource={tableData} />
+          <Table
+            columns={columns}
+            dataSource={tableData}
+            footer={() => (
+              <Button
+                type="primary"
+                icon={<DownloadOutlined />}
+                onClick={() => {
+                  handleDownload(tableData)
+                }}
+              >
+                Download CSV
+              </Button>
+            )}
+          />
         </Col>
         <Col span={8}></Col>
       </Row>
