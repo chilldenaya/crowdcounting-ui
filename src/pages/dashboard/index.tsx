@@ -121,6 +121,7 @@ export default function Home() {
       dataIndex: 'datetime',
       key: 'datetime',
       title: 'Waktu',
+      render: text => moment.utc(text).local().format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       dataIndex: 'count',
@@ -172,7 +173,7 @@ export default function Home() {
                 formData.append('datetime', values.datetime)
                 formData.append('gate', values.gate.value)
 
-                fetch('https://154.26.132.120/upload', {
+                fetch('http://localhost:8000/upload', {
                   body: formData,
                   method: 'POST',
                 })
