@@ -21,40 +21,6 @@ import moment from 'moment'
 import dayjs from 'dayjs'
 import { RcFile } from 'antd/es/upload'
 
-interface DataType {
-  titik: string
-  tanggal: string
-  waktu: string
-  jumlah: number
-}
-
-const columns: ColumnsType<DataType> = [
-  {
-    dataIndex: 'gate',
-    key: 'gate',
-    title: 'Titik',
-  },
-  {
-    dataIndex: 'datetime',
-    key: 'datetime',
-    title: 'Waktu',
-  },
-  {
-    dataIndex: 'count',
-    key: 'count',
-    title: 'Jumlah',
-  },
-  {
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Delete</a>
-      </Space>
-    ),
-    title: 'Action',
-  },
-]
-
 export default function Home() {
   const [imageUrl, setImageUrl] = useState<string>('')
   const [fileImage, setFileImage] = useState<any>([])
@@ -136,6 +102,58 @@ export default function Home() {
     link.click()
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
+  }
+
+  interface DataType {
+    titik: string
+    tanggal: string
+    waktu: string
+    jumlah: number
+  }
+
+  const columns: ColumnsType<DataType> = [
+    {
+      dataIndex: 'gate',
+      key: 'gate',
+      title: 'Titik',
+    },
+    {
+      dataIndex: 'datetime',
+      key: 'datetime',
+      title: 'Waktu',
+    },
+    {
+      dataIndex: 'count',
+      key: 'count',
+      title: 'Jumlah',
+    },
+    {
+      dataIndex: 'id',
+      title: 'Delete',
+      render: id => <Button onClick={() => handleDelete(id)}>Delete</Button>,
+    },
+  ]
+
+  const handleDelete = async (id: string) => {
+    fetch(`http://localhost:8000/delete/${id}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (!response.ok) {
+          message.error('Failed to delete record.')
+        }
+
+        message.success('Record deleted successfully!')
+        return response.json()
+      })
+      .then(data => {
+        fetchData()
+        console.log('Delete operation succeeded:', data)
+      })
+      .catch(error => {
+        message.error('An error occurred while deleting the record.')
+        console.error('Error during delete operation:', error)
+      })
   }
 
   return (
