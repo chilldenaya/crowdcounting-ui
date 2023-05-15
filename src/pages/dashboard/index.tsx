@@ -70,7 +70,7 @@ export default function Home() {
   }
 
   const fetchData = async () => {
-    const response = await fetch('https://cc-app.denaya.site/data')
+    const response = await fetch('http://localhost:8000/data')
     const data = await response.json()
     setTableData(data)
   }
@@ -78,7 +78,7 @@ export default function Home() {
   const [tableData, setTableData] = useState([])
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('https://cc-app.denaya.site/data')
+      const response = await fetch('http://localhost:8000/data')
       const data = await response.json()
       setTableData(data)
     }
@@ -136,7 +136,7 @@ export default function Home() {
   ]
 
   const handleDelete = async (id: string) => {
-    fetch(`https://cc-app.denaya.site/delete/${id}`, {
+    fetch(`http://localhost:8000/delete/${id}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -173,7 +173,7 @@ export default function Home() {
                 formData.append('datetime', values.datetime)
                 formData.append('gate', values.gate.value)
 
-                fetch('https://cc-app.denaya.site/upload', {
+                fetch('http://localhost:8000/upload', {
                   body: formData,
                   method: 'POST',
                 })
